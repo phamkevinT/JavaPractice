@@ -10,7 +10,7 @@ This repository holds all the coding practice/projects done for the Udemy course
 
 ## Course Material
 
-```python
+```
 Section 1 - Course Introduction
 Section 2 - Software Tools Setup
 Section 3 - First Steps
