@@ -49,6 +49,5 @@ public class Main {
         VipPerson person3 = new VipPerson("Kevin", 100.00, "kevin@email.com");
         System.out.println(person3.getName());
         System.out.println(person3.getEmailAddress());
-
     }
 }
