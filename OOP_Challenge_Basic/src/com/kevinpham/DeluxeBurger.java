@@ -3,7 +3,7 @@ package com.kevinpham;
 public class DeluxeBurger extends Hamburger{
 
     public DeluxeBurger() {
-        super("Deluxe", "Beef", "white", 12.50);
+        super("Deluxe", "Beef", "white", 10.50);
         super.addHamburgerAddition1("Chips", 2.25);
         super.addHamburgerAddition2("Drink", 1.25);
     }

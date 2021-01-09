@@ -18,6 +18,25 @@ package com.kevinpham;
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+
+        Hamburger basicHamburger  = new Hamburger("Basic", "Beef", "White", 8.55);
+        basicHamburger.addHamburgerAddition1("Tomato", 0.27);
+        basicHamburger.addHamburgerAddition2("Lettuce", 0.31);
+        basicHamburger.addHamburgerAddition3("Cheese", 1.05);
+        System.out.println("Total burger price is " + basicHamburger.calculatePrice());
+
+        System.out.println();
+
+        HealthyBurger healthyBurger = new HealthyBurger("Chicken", 5.67);
+        healthyBurger.addHealthyAddOn1("Egg", 2.50);
+        healthyBurger.addHealthyAddOn2("Lentils", 1.75);
+        System.out.println("Total burger price is " + healthyBurger.calculatePrice());
+
+        System.out.println();
+
+
+        DeluxeBurger deluxeBurger = new DeluxeBurger();
+        deluxeBurger.addHamburgerAddition1("Cannot add additional add-ons", 50.50);
+        System.out.println("Total burger price is " + deluxeBurger.calculatePrice());
     }
 }
