@@ -4,7 +4,7 @@ package com.kevinpham;
 //
 //  For the base Hamburger class, there are four variables to represent the four basic ingredients of the hamburger, (name, meat, price, breadRollType)
 //
-//  There are 4 seperate variables that are additional add-ons to the hamburger.
+//  There are 4 separate variables that are additional add-ons to the hamburger.
 //
 //  Four methods are needed for adding the 4 different add-ons. Each method takes in a 'name' and a 'price'.
 //  Another method calculates the hamburger's price including any add-ons.
