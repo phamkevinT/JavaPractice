@@ -81,7 +81,7 @@ public class Main {
                     // If we are currently going backward, set flag to going forward (true)
                     if (!goingForward) {
                         if (listIterator.hasNext()) {
-                            listIterator.next();
+                            listIterator.next(); // This line prevents duplicate when changing direction by updating cursor
                         }
                         goingForward = true;
                     }
@@ -98,7 +98,7 @@ public class Main {
                     // If we are currently going forward, set flag to going backwards (false)
                     if (goingForward) {
                         if (listIterator.hasPrevious()) {
-                            listIterator.previous();
+                            listIterator.previous(); // This line prevents duplicate when changing direction by updating cursor
                         }
                         goingForward = false;
                     }
