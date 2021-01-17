@@ -154,6 +154,10 @@ public class Main {
         }
     }
 
+
+    /**
+     * Prints the menu options for user
+     */
     private static void printMenu() {
         System.out.println("Available actions:\npress");
         System.out.println("0 - to quit\n" +
@@ -167,6 +171,10 @@ public class Main {
     }
 
 
+    /**
+     * Print the list of songs in playlist
+     * @param playList the playlist
+     */
     private static void printList(LinkedList<Song> playList) {
         Iterator<Song> iterator = playList.iterator();
         System.out.println("================================");
