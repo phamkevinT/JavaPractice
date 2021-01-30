@@ -9,7 +9,7 @@ public class Main {
     // 3. Thread could be suspended between steps (for example, before decrementing i in the for-loop, just before condition check)
     // 4. Thread interference (Race condition) - thread interfere with each other and change value of i
     // 5. Synchronization - Control when thread execute code and therefore when they can access the heap
-    //
+    // 6. Critical Section - code that is referencing shared resource such as a variable
     //
 
     public static void main(String[] args) {
