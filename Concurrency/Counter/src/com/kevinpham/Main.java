@@ -2,6 +2,14 @@ package com.kevinpham;
 
 public class Main {
 
+    // Take away lessons:
+    //
+    // 1. LOCAL variables are stored in the thread STACK, each thread has its own copy of the variable
+    // 2. Memory required to store an INSTANCE variable value is located on the HEAP, thread share same object
+    // 3. Thread could be suspended between steps (for example, before decrementing i in the for-loop, just before condition check)
+    // 4. Thread interference (Race condition) - thread interfere with each other and change value of i
+    //
+
     public static void main(String[] args) {
 
         Countdown countdown = new Countdown();
