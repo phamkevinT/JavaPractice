@@ -2,7 +2,10 @@ package com.kevinpham;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.function.IntPredicate;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class Main {
 
@@ -28,6 +31,40 @@ public class Main {
         // Print out employees based on condition
         printEmployeesByAge(employees, "Employees over 30", employee -> employee.getAge() > 30);
         printEmployeesByAge(employees, "\nEmployees 30 and under", employee -> employee.getAge() <= 30);
+
+
+        // IntPredicate Examples
+        IntPredicate greaterThan15 = i -> i > 15;
+        IntPredicate lessThan100 = i -> i < 100;
+
+        System.out.println(greaterThan15.test(10)); // Prints false since 10 > 15
+
+        int a = 20;
+        System.out.println(greaterThan15.test(a + 5)); // Prints true since (20 + 5) > 15
+
+        System.out.println(greaterThan15.and(lessThan100).test(50)); // Prints true since 15 < 50 < 100
+
+
+        // Each lambda expression is like a nested block. Equivalent to:
+//        {
+//            int i;
+//
+//            return i > 15;
+//        }
+//        {
+//            int i;
+//
+//            return i < 100;
+//        }
+
+
+        // Supplier Interface Examples
+        Random random = new Random();
+        Supplier<Integer> randomSupplier = () -> random.nextInt(1000);
+        for (int i = 0; i < 10; i++) {
+            System.out.println(randomSupplier.get());
+        }
+
 
     }
 
