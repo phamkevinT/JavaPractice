@@ -44,9 +44,10 @@ class BankAccountTest {
 
     @org.junit.jupiter.api.Test
     public void isChecking_true() {
+
         // Created an account
         BankAccount account = new BankAccount("Kevin", "Pham", 1000, BankAccount.CHECKING);
         // Testing if the account is a Checking Account
-        assertTrue(account.isChecking());
+        assertTrue(account.isChecking(), "The account is NOT a checking account");
     }
 }
