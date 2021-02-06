@@ -8,7 +8,7 @@ class BankAccountTest {
     void deposit() {
 
         // Created an account
-        BankAccount account = new BankAccount("Kevin", "Pham", 1000);
+        BankAccount account = new BankAccount("Kevin", "Pham", 1000, BankAccount.CHECKING);
         // Deposited 200 to the account
         double balance = account.deposit(200, true);
         // Testing the expected value and whats in the current balance. Delta (3rd param) is the accepted variance
@@ -24,7 +24,7 @@ class BankAccountTest {
     void getBalance_deposit() {
 
         // Created an account
-        BankAccount account = new BankAccount("Kevin", "Pham", 1000);
+        BankAccount account = new BankAccount("Kevin", "Pham", 1000, BankAccount.CHECKING);
         // Deposited 200 to the account
         account.deposit(200, true);
         // Testing the getBalance() to return the correct balance
@@ -35,12 +35,18 @@ class BankAccountTest {
     void getBalance_withdraw() {
 
         // Created an account
-        BankAccount account = new BankAccount("Kevin", "Pham", 1000);
+        BankAccount account = new BankAccount("Kevin", "Pham", 1000, BankAccount.CHECKING);
         // Withdraw 200 to the account
         account.withdraw(200, true);
         // Testing the getBalance() to return the correct balance
         assertEquals(800, account.getBalance(), 0);
     }
 
-
+    @org.junit.jupiter.api.Test
+    public void isChecking_true() {
+        // Created an account
+        BankAccount account = new BankAccount("Kevin", "Pham", 1000, BankAccount.CHECKING);
+        // Testing if the account is a Checking Account
+        assertTrue(account.isChecking());
+    }
 }
