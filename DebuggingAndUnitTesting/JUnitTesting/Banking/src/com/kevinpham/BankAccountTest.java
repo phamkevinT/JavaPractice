@@ -4,11 +4,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BankAccountTest {
 
+    private BankAccount account;
+
+    // 'BeforeEach' runs this every time we run a test
+    @org.junit.jupiter.api.BeforeEach
+    public void setUp() {
+        // Created an account
+        account = new BankAccount("Kevin", "Pham", 1000, BankAccount.CHECKING);
+        System.out.println("Running a test...");
+    }
+
+
     @org.junit.jupiter.api.Test
     void deposit() {
 
-        // Created an account
-        BankAccount account = new BankAccount("Kevin", "Pham", 1000, BankAccount.CHECKING);
         // Deposited 200 to the account
         double balance = account.deposit(200, true);
         // Testing the expected value and whats in the current balance. Delta (3rd param) is the accepted variance
@@ -23,8 +32,6 @@ class BankAccountTest {
     @org.junit.jupiter.api.Test
     void getBalance_deposit() {
 
-        // Created an account
-        BankAccount account = new BankAccount("Kevin", "Pham", 1000, BankAccount.CHECKING);
         // Deposited 200 to the account
         account.deposit(200, true);
         // Testing the getBalance() to return the correct balance
@@ -34,8 +41,6 @@ class BankAccountTest {
     @org.junit.jupiter.api.Test
     void getBalance_withdraw() {
 
-        // Created an account
-        BankAccount account = new BankAccount("Kevin", "Pham", 1000, BankAccount.CHECKING);
         // Withdraw 200 to the account
         account.withdraw(200, true);
         // Testing the getBalance() to return the correct balance
@@ -45,8 +50,6 @@ class BankAccountTest {
     @org.junit.jupiter.api.Test
     public void isChecking_true() {
 
-        // Created an account
-        BankAccount account = new BankAccount("Kevin", "Pham", 1000, BankAccount.CHECKING);
         // Testing if the account is a Checking Account
         assertTrue(account.isChecking(), "The account is NOT a checking account");
     }
