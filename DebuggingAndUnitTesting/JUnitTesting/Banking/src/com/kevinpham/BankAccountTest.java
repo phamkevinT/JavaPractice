@@ -5,6 +5,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class BankAccountTest {
 
     private BankAccount account;
+    private static int count;
+
+    @org.junit.jupiter.api.BeforeAll
+    public static void beforeClass() {
+        System.out.println("This executes before any test cases. Count = " + count++);
+    }
+
 
     // 'BeforeEach' runs this every time we run a test
     @org.junit.jupiter.api.BeforeEach
@@ -24,10 +31,23 @@ class BankAccountTest {
         assertEquals(1200, balance, 0);
     }
 
+
     @org.junit.jupiter.api.Test
-    void withdraw() {
-        fail("This test has yet to be implemented");
+    void withdraw_branch() {
+        double balance = account.withdraw(600, true);
+        assertEquals(400, balance, 0);
     }
+
+
+    @org.junit.jupiter.api.Test
+    void withdraw_notBranch() {
+        // Will pass the test if IllegalArgumentException is thrown
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            double balance = account.withdraw(600, false);
+            assertEquals(400, balance, 0);
+        });
+    }
+
 
     @org.junit.jupiter.api.Test
     void getBalance_deposit() {
@@ -38,6 +58,7 @@ class BankAccountTest {
         assertEquals(1200, account.getBalance(), 0);
     }
 
+
     @org.junit.jupiter.api.Test
     void getBalance_withdraw() {
 
@@ -47,11 +68,24 @@ class BankAccountTest {
         assertEquals(800, account.getBalance(), 0);
     }
 
+
     @org.junit.jupiter.api.Test
     public void isChecking_true() {
 
         // Testing if the account is a Checking Account
         assertTrue(account.isChecking(), "The account is NOT a checking account");
+    }
+
+
+    @org.junit.jupiter.api.AfterAll
+    public static void afterClass() {
+        System.out.println("This executes after any test cases. Count = " + count++);
+    }
+
+
+    @org.junit.jupiter.api.AfterEach
+    public void teardown() {
+        System.out.println("Count = " + count++);
     }
 }
 
