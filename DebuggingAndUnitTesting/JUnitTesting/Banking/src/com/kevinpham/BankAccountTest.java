@@ -51,3 +51,23 @@ class BankAccountTest {
         assertTrue(account.isChecking(), "The account is NOT a checking account");
     }
 }
+
+/*
+
+    JUnit Assertion Methods
+
+    1. assertNotEquals() - when we don't want the actual value to equal to a specific value
+
+    2. assertArrayEquals() - verify the value of an array. Cannot use assertEquals() b/c it will only consider
+    two arrays equal if they are the same instance. assertArrayEquals() considers two arrays equals when their
+    length are the same, and every element in both arrays is the same and in same order
+
+    3. assertNull() and assertNotNull() - check for null (and non-null) values
+
+    4. assertSame() and assertNotSame() - check whether two instances are the same instance. assertEquals() tests
+    for equality. assertSame() compares object references
+
+    5. assertThat() - compares actual value against a matcher (not matcher in JDK but in JUnit matcher class)
+
+
+ */
