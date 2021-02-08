@@ -1,7 +1,5 @@
 package com.kevinpham;
 
-import jdk.jshell.execution.Util;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class UtilitiesTest {
