@@ -33,6 +33,14 @@ class UtilitiesTest {
     }
 
     @org.junit.jupiter.api.Test
+    void converter_arithmeticException() throws Exception {
+        Utilities util = new Utilities();
+        Exception exception = assertThrows(ArithmeticException.class, () -> {
+            util.converter(10, 0);
+        });
+    }
+
+    @org.junit.jupiter.api.Test
     void nullIfOddLength() {
         Utilities util = new Utilities();
         assertNull(util.nullIfOddLength("odd")); // Test odd length string -> Null
