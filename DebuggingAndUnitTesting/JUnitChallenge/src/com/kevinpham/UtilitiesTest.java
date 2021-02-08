@@ -1,10 +1,11 @@
 package com.kevinpham;
 
-import jdk.jshell.execution.Util;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class UtilitiesTest {
+
+    @org.junit.jupiter.api.BeforeEach
+
 
     @org.junit.jupiter.api.Test
     void everyNthChar() {
@@ -33,9 +34,9 @@ class UtilitiesTest {
     }
 
     @org.junit.jupiter.api.Test
-    void converter_arithmeticException() throws Exception {
+    void converter_arithmeticException() {
         Utilities util = new Utilities();
-        Exception exception = assertThrows(ArithmeticException.class, () -> {
+        assertThrows(ArithmeticException.class, () -> {
             util.converter(10, 0);
         });
     }
