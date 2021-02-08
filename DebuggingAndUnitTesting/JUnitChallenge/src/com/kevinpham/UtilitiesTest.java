@@ -1,5 +1,7 @@
 package com.kevinpham;
 
+import jdk.jshell.execution.Util;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class UtilitiesTest {
@@ -7,9 +9,12 @@ class UtilitiesTest {
     @org.junit.jupiter.api.Test
     void everyNthChar() {
         Utilities util = new Utilities();
-        char[] output = util.everyNthChar(new char[] {'h', 'e', 'l', 'l', 'o'}, 2);
-        assertArrayEquals(new char[] {'e', 'l'}, output);
-     }
+        char[] output = util.everyNthChar(new char[]{'h', 'e', 'l', 'l', 'o'}, 2); // Test basic functionality
+        assertArrayEquals(new char[]{'e', 'l'}, output);
+
+        char[] output2 = util.everyNthChar(new char[]{'h', 'e', 'l', 'l', 'o'}, 8); // Test when n > length
+        assertArrayEquals(new char[]{'h', 'e', 'l', 'l', 'o'}, output2);
+    }
 
     @org.junit.jupiter.api.Test
     void removePairs() {
@@ -19,9 +24,6 @@ class UtilitiesTest {
         assertNull(null, util.removePairs(null)); // Null
         assertEquals("A", util.removePairs("A")); // Single char
         assertEquals("", util.removePairs("")); // Empty string
-
-
-
     }
 
     @org.junit.jupiter.api.Test
@@ -31,6 +33,8 @@ class UtilitiesTest {
 
     @org.junit.jupiter.api.Test
     void nullIfOddLength() {
-        fail("This test has not been implemented.");
+        Utilities util = new Utilities();
+        assertNull(util.nullIfOddLength("odd")); // Test odd length string -> Null
+        assertNotNull(util.nullIfOddLength("even")); // Test even length string -> Not Null
     }
 }
