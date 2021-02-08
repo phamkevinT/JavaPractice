@@ -36,9 +36,7 @@ class UtilitiesTest {
     @org.junit.jupiter.api.Test
     void converter_arithmeticException() {
         Utilities util = new Utilities();
-        assertThrows(ArithmeticException.class, () -> {
-            util.converter(10, 0);
-        });
+        assertThrows(ArithmeticException.class, () -> util.converter(10, 0));
     }
 
     @org.junit.jupiter.api.Test
