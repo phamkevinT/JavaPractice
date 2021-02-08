@@ -11,7 +11,8 @@ class UtilitiesTest {
 
     @org.junit.jupiter.api.Test
     void removePairs() {
-        fail("This test has not been implemented.");
+        Utilities util = new Utilities();
+        assertEquals("ABCDEF", util.removePairs("AABCDDEFF"));
     }
 
     @org.junit.jupiter.api.Test
