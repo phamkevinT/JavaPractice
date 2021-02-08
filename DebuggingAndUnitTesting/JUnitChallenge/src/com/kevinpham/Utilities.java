@@ -22,13 +22,13 @@ public class Utilities {
 
 
     // Removes pairs of the same character that are next to each other,
-    // by removing on e occurences of the character.
+    // by removing extra occurrence of the character.
     // "ABBCDEEF" -> "ABCDEF"
     // "ABCBDEEF" -> "ABCBDEF" (The two B's aren't next to each other)
     public String removePairs(String source) {
 
         // If length is less than 2, there won't be any pairs
-        if (source.length() < 2) {
+        if (source == null || source.length() < 2) {
             return source;
         }
 
