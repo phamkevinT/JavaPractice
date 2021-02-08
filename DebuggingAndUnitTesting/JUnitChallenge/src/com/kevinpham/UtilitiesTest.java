@@ -6,8 +6,10 @@ class UtilitiesTest {
 
     @org.junit.jupiter.api.Test
     void everyNthChar() {
-        fail("This test has not been implemented.");
-    }
+        Utilities util = new Utilities();
+        char[] output = util.everyNthChar(new char[] {'h', 'e', 'l', 'l', 'o'}, 2);
+        assertArrayEquals(new char[] {'e', 'l'}, output);
+     }
 
     @org.junit.jupiter.api.Test
     void removePairs() {
