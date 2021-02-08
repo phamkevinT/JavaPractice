@@ -37,14 +37,13 @@ public class Utilities {
 
         // If current value doesn't equal to next value, add to StringBuilder sb
         for (int i = 0; i < string.length - 1; i++) {
-            System.out.println(string[i]);
             if (string[i] != string[i + 1]) {
                 sb.append(string[i]);
             }
         }
-        
+
         // Add the last character in the string as it is safe
-        sb.append(string.length - 1);
+        sb.append(string[string.length - 1]);
         return sb.toString();
     }
 

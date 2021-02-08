@@ -13,6 +13,7 @@ class UtilitiesTest {
     void removePairs() {
         Utilities util = new Utilities();
         assertEquals("ABCDEF", util.removePairs("AABCDDEFF"));
+        assertEquals("ABCABDEF", util.removePairs("ABCCABDEEF"));
     }
 
     @org.junit.jupiter.api.Test
