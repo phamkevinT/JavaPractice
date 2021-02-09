@@ -9,7 +9,7 @@ public class Datasource {
     // The database name
     public static final String DB_NAME = "music.db";
     // The database location
-    public static final String CONNECTION_STRING = "jbdc:sqlite:D:\\github\\JavaMasterClass\\Database\\Music\\" + DB_NAME;
+    public static final String CONNECTION_STRING = "jdbc:sqlite:D:\\github\\JavaMasterClass\\Database\\Music\\" + DB_NAME;
 
     // Table: Album
     public static final String TABLE_ALBUMS = "albums";
