@@ -1,5 +1,6 @@
 package com.kevinpham;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 
 public class Main {
@@ -30,29 +31,10 @@ public class Main {
             );
 
             // Inserting data
-            statement.execute(
-                    "INSERT INTO " + TABLE_CONTACTS + " (" +
-                            COLUMN_NAME + ", " +
-                            COLUMN_PHONE + ", " +
-                            COLUMN_EMAIL + ")" +
-                            "VALUES ('Kevin', 4088923637, 'kevin@email.com')"
-            );
-
-            statement.execute(
-                    "INSERT INTO " + TABLE_CONTACTS + " (" +
-                            COLUMN_NAME + ", " +
-                            COLUMN_PHONE + ", " +
-                            COLUMN_EMAIL + ")" +
-                            "VALUES ('Joe', 4081234567, 'joe@email.com')"
-            );
-
-            statement.execute(
-                    "INSERT INTO " + TABLE_CONTACTS + " (" +
-                            COLUMN_NAME + ", " +
-                            COLUMN_PHONE + ", " +
-                            COLUMN_EMAIL + ")" +
-                            "VALUES ('Jane', 4085678901, 'jane@email.com')"
-            );
+            insertContacts(statement, "Kevin", 8923637, "kevin@email.com");
+            insertContacts(statement, "Joe", 1234567, "joe@email.com");
+            insertContacts(statement, "Jane", 5678901, "jane@email.com");
+            insertContacts(statement, "Fido", 5462347, "fido@email.com");
 
 
             // Updating data
@@ -77,7 +59,17 @@ public class Main {
         } catch (SQLException e) {
             System.out.println("Something went wrong: " + e.getMessage());
         }
+    }
 
+    
+    private static void insertContacts(Statement statement, String name, int phone, String email) throws SQLException {
 
+        statement.execute(
+                "INSERT INTO " + TABLE_CONTACTS + " (" +
+                        COLUMN_NAME + ", " +
+                        COLUMN_PHONE + ", " +
+                        COLUMN_EMAIL + ")" +
+                        "VALUES ('" + name + "', " + phone + ", '" + email + "')"
+        );
     }
 }
