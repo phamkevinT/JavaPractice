@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ed6a2433-ef4c-443d-8f61-6cb2f7990f97" name="Default Changelist" comment="" />
+    <list default="true" id="ed6a2433-ef4c-443d-8f61-6cb2f7990f97" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/TestDB/out/production/TestDB/com/kevinpham/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/TestDB/out/production/TestDB/com/kevinpham/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestDB/testjava.db" beforeDir="false" afterPath="$PROJECT_DIR$/TestDB/testjava.db" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,5 +49,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
