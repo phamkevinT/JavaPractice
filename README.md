@@ -33,5 +33,4 @@ Section 19 - Databases
 Section 20 - Java Networking Programming
 Section 21 - Java 9 Module System
 Section 22 - Migrating Java Projects to Java 9
-Section 23 - Course Remaster in Progress
 ```
