@@ -18,6 +18,7 @@ public class Main {
             // Database connection & creation
             Connection conn = DriverManager.getConnection(CONNECTION_STRING);
 
+            // Query Statement
             Statement statement = conn.createStatement();
 
             // Drop table if it exists
@@ -36,7 +37,6 @@ public class Main {
             insertContacts(statement, "Jane", 5678901, "jane@email.com");
             insertContacts(statement, "Fido", 5462347, "fido@email.com");
 
-
             // Updating data
             statement.execute("UPDATE " + TABLE_CONTACTS + " SET " + COLUMN_PHONE + "=5554326789 WHERE " + COLUMN_NAME + "='Jane'");
 
@@ -51,7 +51,6 @@ public class Main {
                         results.getString(COLUMN_EMAIL));
             }
 
-
             // Close resources
             results.close();
             statement.close();
@@ -61,7 +60,7 @@ public class Main {
         }
     }
 
-    
+
     private static void insertContacts(Statement statement, String name, int phone, String email) throws SQLException {
 
         statement.execute(
