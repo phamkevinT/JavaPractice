@@ -2,6 +2,7 @@ package com.kevinpham;
 
 import com.kevinpham.model.Artist;
 import com.kevinpham.model.Datasource;
+import com.kevinpham.model.SongArtist;
 
 import java.util.List;
 
@@ -39,6 +40,22 @@ public class Main {
             System.out.println(album);
         }
 
+        // Spacer
+        System.out.println("");
+        System.out.println("");
+
+        // Get the artist's name, song's album name, and its track number based on the song name
+        List<SongArtist> songArtists = datasource.queryArtistForSong("Heartless", Datasource.ORDER_BY_ASC);
+        if (songArtists == null) {
+            System.out.println("Couldn't find the artist for the song.");
+            return;
+        }
+        for (SongArtist artist : songArtists) {
+            System.out.println("\tArtist name = " + artist.getArtistName() +
+                    "\n\tAlbum name = " + artist.getAlbumName() +
+                    "\n\tTrack = " + artist.getTrack()
+            );
+        }
 
         datasource.close();
     }

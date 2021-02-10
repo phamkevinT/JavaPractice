@@ -69,7 +69,7 @@ public class Datasource {
                     " FROM " + TABLE_SONGS +
                     " INNER JOIN " + TABLE_ALBUMS + " ON " + TABLE_SONGS + "." + COLUMN_SONG_ALBUM + " = " + TABLE_ALBUMS + "." + COLUMN_ALBUMS_ID +
                     " INNER JOIN " + TABLE_ARTISTS + " ON " + TABLE_ALBUMS + "." + COLUMN_ALBUM_ARTIST + " = " + TABLE_ARTISTS + "." + COLUMN_ARTIST_ID +
-                    " WHERE " + TABLE_SONGS + "." + COLUMN_SONG_TITLE + " = \'";
+                    " WHERE " + TABLE_SONGS + "." + COLUMN_SONG_TITLE + " = \"";
 
     public static final String QUERY_ARTIST_FOR_SONGS_SORT =
             " ORDER BY " + TABLE_ARTISTS + "." + COLUMN_ARTIST_NAME + ", " + TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME + " COLLATE NOCASE ";
@@ -175,6 +175,48 @@ public class Datasource {
         }
     }
 
+
+    // Get artist based on song name
+    public List<SongArtist> queryArtistForSong(String songName, int sortOrder) {
+
+        StringBuilder sb = new StringBuilder(QUERY_ARTIST_FOR_SONGS_START);
+        sb.append(songName);
+        sb.append("\"");
+
+        if (sortOrder != ORDER_BY_NONE) {
+            sb.append(QUERY_ALBUM_BY_ARTIST_SORT);
+            if (sortOrder == ORDER_BY_DESC) {
+                sb.append("DESC");
+            } else {
+                sb.append("ASC");
+            }
+        }
+
+        System.out.println("SQL Statement: " + sb.toString());
+
+        try (Statement statement = conn.createStatement();
+             ResultSet results = statement.executeQuery(sb.toString())
+        ) {
+            List<SongArtist> songArtists = new ArrayList<>();
+            while (results.next()) {
+                // Create SongArtist object
+                SongArtist songArtist = new SongArtist();
+                // Set object's artist name to that of result's
+                songArtist.setArtistName(results.getString(1));
+                // Set objects album name to that of result's
+                songArtist.setAlbumName(results.getString(2));
+                // Set object's track number to that of result's
+                songArtist.setTrack(results.getInt(3));
+                // Add the object to the list of artists
+                songArtists.add(songArtist);
+            }
+            return songArtists;
+        } catch (SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
+            return null;
+        }
+
+    }
 
 }
 
