@@ -10,11 +10,13 @@ public class Main {
 
     public static void main(String[] args) {
 
+        // Datasource is the class file that connects to the database and contains query methods
         Datasource datasource = new Datasource();
         if (!datasource.open()) {
             System.out.println("Can't open datasource.");
             return;
         }
+
 
         // Get list of Artists
         List<Artist> artists = datasource.queryArtist(Datasource.ORDER_BY_NONE);
@@ -26,9 +28,11 @@ public class Main {
             System.out.println("ID = " + artist.getId() + ", Name = " + artist.getName());
         }
 
+
         // Spacer
         System.out.println("");
         System.out.println("");
+
 
         // Get ordered/non-ordered list of albums by an artist
         List<String> albumsForArtist = datasource.queryAlbumsForArtist("Iron Maiden", Datasource.ORDER_BY_ASC);
@@ -40,9 +44,11 @@ public class Main {
             System.out.println(album);
         }
 
+
         // Spacer
         System.out.println("");
         System.out.println("");
+
 
         // Get the artist's name, song's album name, and its track number based on the song name
         List<SongArtist> songArtists = datasource.queryArtistForSong("Heartless", Datasource.ORDER_BY_ASC);
@@ -56,6 +62,15 @@ public class Main {
                     "\n\tTrack = " + artist.getTrack()
             );
         }
+
+
+        // Spacer
+        System.out.println("");
+        System.out.println("");
+
+
+        // Get the Song Table meta data
+        datasource.querySongsMetadata();
 
         datasource.close();
     }

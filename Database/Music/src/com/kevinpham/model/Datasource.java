@@ -88,6 +88,7 @@ public class Datasource {
         }
     }
 
+
     // Close the connection to our database
     public void close() {
         try {
@@ -98,6 +99,7 @@ public class Datasource {
             System.out.println("Couldn't close connection: " + e.getMessage());
         }
     }
+
 
     // Gets all artist and returns a list of artist names
     public List<Artist> queryArtist(int sortOrder) {
@@ -216,6 +218,24 @@ public class Datasource {
             return null;
         }
 
+    }
+
+
+    // Get the meta data (Column names) for Song Table
+    public void querySongsMetadata() {
+        String sql = "SELECT * FROM " + TABLE_SONGS;
+
+        try (Statement statement = conn.createStatement();
+             ResultSet results = statement.executeQuery(sql)) {
+
+            ResultSetMetaData meta = results.getMetaData();
+            int numColumns = meta.getColumnCount();
+            for (int i = 1; i <= numColumns; i++) {
+                System.out.format("Column %d in the songs table is names %s\n", i, meta.getColumnName(i));
+            }
+        } catch (SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
+        }
     }
 
 }
