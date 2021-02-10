@@ -44,15 +44,35 @@ public class Datasource {
     public static final int ORDER_BY_DESC = 3;
 
     // Query as constant
-    // SELECT albums.name FROM albums INNER JOIN artists ON albums.artist = artists._id WHERE artists.name = "XXXX" ORDER BY albums.name COLLATE NOCASE XXXX;
+    //      SELECT albums.name
+    //      FROM albums INNER JOIN artists ON albums.artist = artists._id
+    //      WHERE artists.name = "XXXX" ORDER BY albums.name COLLATE NOCASE XXXX;
     public static final String QUERY_ALBUM_BY_ARTIST_START =
-            "SELECT " + TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME + " FROM " + TABLE_ALBUMS +
-                    " INNER JOIN " + TABLE_ARTISTS + " ON " + TABLE_ALBUMS + "." + COLUMN_ALBUM_ARTIST +
-                    " = " + TABLE_ARTISTS + "." + COLUMN_ARTIST_ID +
+            "SELECT " + TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME +
+                    " FROM " + TABLE_ALBUMS +
+                    " INNER JOIN " + TABLE_ARTISTS + " ON " + TABLE_ALBUMS + "." + COLUMN_ALBUM_ARTIST + " = " + TABLE_ARTISTS + "." + COLUMN_ARTIST_ID +
                     " WHERE " + TABLE_ARTISTS + "." + COLUMN_ARTIST_NAME + " = \"";
 
     public static final String QUERY_ALBUM_BY_ARTIST_SORT =
             " ORDER BY " + TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME + " COLLATE NOCASE ";
+
+
+    // Query as constant
+    //      SELECT artists.name, albums.name, songs.track
+    //      FROM songs
+    //      INNER JOIN albums ON songs.album = albums._id
+    //      INNER JOIN artists ON albums.artist = artists._id
+    //      WHERE songs.title = "Go Your Own Way"
+    //      ORDER BY artists.name, albums.name COLLATE NOCASE ASC
+    public static final String QUERY_ARTIST_FOR_SONGS_START =
+            "SELECT " + TABLE_ARTISTS + "." + COLUMN_ARTIST_NAME + ", " + TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME + ", " + TABLE_SONGS + "." + COLUMN_SONG_TRACK +
+                    " FROM " + TABLE_SONGS +
+                    " INNER JOIN " + TABLE_ALBUMS + " ON " + TABLE_SONGS + "." + COLUMN_SONG_ALBUM + " = " + TABLE_ALBUMS + "." + COLUMN_ALBUMS_ID +
+                    " INNER JOIN " + TABLE_ARTISTS + " ON " + TABLE_ALBUMS + "." + COLUMN_ALBUM_ARTIST + " = " + TABLE_ARTISTS + "." + COLUMN_ARTIST_ID +
+                    " WHERE " + TABLE_SONGS + "." + COLUMN_SONG_TITLE + " = \'";
+
+    public static final String QUERY_ARTIST_FOR_SONGS_SORT =
+            " ORDER BY " + TABLE_ARTISTS + "." + COLUMN_ARTIST_NAME + ", " + TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME + " COLLATE NOCASE ";
 
 
     private Connection conn;
