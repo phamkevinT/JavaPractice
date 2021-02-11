@@ -91,11 +91,11 @@ public class Main {
         datasource.createViewForSongArtist();
 
         songArtists = datasource.querySongInfoView("Go Your Own Way");
-        if(songArtists.isEmpty()) {
+        if (songArtists.isEmpty()) {
             System.out.println("Couldn't find the artist for the song.");
             return;
         }
-        for(SongArtist artist : songArtists) {
+        for (SongArtist artist : songArtists) {
             System.out.println("FROM VIEW - Artist Name = " + artist.getArtistName() +
                     " Album Name = " + artist.getAlbumName() +
                     " Track Number = " + artist.getTrack());
