@@ -108,6 +108,15 @@ public class Main {
                     " Track Number = " + artist.getTrack());
         }
 
+
+        // Spacer
+        System.out.println("");
+        System.out.println("");
+
+
+        // Added Song, Artist, Album, Track #
+        datasource.insertSong("Touch of Grey", "Grateful Dead", "In The Dark", 1);
+
         datasource.close();
     }
 }

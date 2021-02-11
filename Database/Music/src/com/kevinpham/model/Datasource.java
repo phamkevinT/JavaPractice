@@ -103,9 +103,31 @@ public class Datasource {
             COLUMN_SONG_ALBUM + ", " + COLUMN_SONG_TRACK + " FROM " + TABLE_ARTIST_SONG_VIEW +
             " WHERE " + COLUMN_SONG_TITLE + " = ?";
 
+    public static final String INSERT_ARTIST = "INSERT INTO " + TABLE_ARTISTS +
+            "(" + COLUMN_ARTIST_NAME + ") VALUES(?)";
+    public static final String INSERT_ALBUMS = "INSERT INTO " + TABLE_ALBUMS +
+            "(" + COLUMN_ALBUM_NAME + ", " + COLUMN_ALBUM_ARTIST + ") VALUES(?, ?)";
+    public static final String INSERT_SONGS = "INSERT INTO " + TABLE_SONGS +
+            "(" + COLUMN_SONG_TRACK + ", " + COLUMN_SONG_TITLE + ", " + COLUMN_SONG_ALBUM +
+            ") VALUES(?, ?, ?)";
+
+    public static final String QUERY_ARTIST = "SELECT " + COLUMN_ARTIST_ID + " FROM " +
+            TABLE_ARTISTS + " WHERE " + COLUMN_ARTIST_NAME + " = ?";
+    public static final String QUERY_ALBUM = "SELECT " + COLUMN_ALBUMS_ID + " FROM " +
+            TABLE_ALBUMS + " WHERE " + COLUMN_ALBUM_NAME + " = ?";
+
+
     private Connection conn;
 
     private PreparedStatement querySongInfoView;
+
+    // Prepared INSERT
+    private PreparedStatement insertIntoArtists;
+    private PreparedStatement insertIntoAlbums;
+    private PreparedStatement insertIntoSongs;
+
+    private PreparedStatement queryArtist;
+    private PreparedStatement queryAlbum;
 
     // Open a connection to our database
     public boolean open() {
@@ -113,6 +135,14 @@ public class Datasource {
             conn = DriverManager.getConnection(CONNECTION_STRING);
             // Create PreparedStatement instance
             querySongInfoView = conn.prepareStatement(QUERY_VIEW_SONG_INFO_PREP);
+            // RETURN_GENERATED_KEYS gives us 'ID' that we use to pass into another INSERT Statement
+            insertIntoArtists = conn.prepareStatement(INSERT_ARTIST, Statement.RETURN_GENERATED_KEYS);
+            insertIntoAlbums = conn.prepareStatement(INSERT_ALBUMS, Statement.RETURN_GENERATED_KEYS);
+            insertIntoSongs = conn.prepareStatement(INSERT_SONGS);
+            // QUERY
+            queryArtist = conn.prepareStatement(QUERY_ARTIST);
+            queryAlbum = conn.prepareStatement(QUERY_ALBUM);
+
             return true;
         } catch (SQLException e) {
             System.out.println("Couldn't connect to database " + e.getMessage());
@@ -124,8 +154,23 @@ public class Datasource {
     // Close our resources
     public void close() {
         try {
-            if(querySongInfoView != null) {
+            if (querySongInfoView != null) {
                 querySongInfoView.close();
+            }
+            if (insertIntoArtists != null) {
+                insertIntoArtists.close();
+            }
+            if (insertIntoAlbums != null) {
+                insertIntoAlbums.close();
+            }
+            if (insertIntoSongs != null) {
+                insertIntoSongs.close();
+            }
+            if (queryArtist != null) {
+                queryArtist.close();
+            }
+            if (queryAlbum != null) {
+                queryAlbum.close();
             }
             if (conn != null) {
                 conn.close();
@@ -327,6 +372,116 @@ public class Datasource {
         }
     }
 
+    // Insert Artist by Name
+    private int insertArtist(String name) throws SQLException {
+        queryArtist.setString(1, name);
+        ResultSet results = queryArtist.executeQuery();
+        if (results.next()) {
+            // If we get a number back from query, artist already exists. Return artist ID
+            return results.getInt(1);
+        } else {
+            // Insert the artist
+            insertIntoArtists.setString(1, name);
+            // executeUpdate() returns the number of rows affected by the INSERT
+            int affectedRows = insertIntoArtists.executeUpdate();
+
+            // We only expect one row to be affected
+            if (affectedRows != 1) {
+                // Throw exception that will be handled in the insertSong()
+                throw new SQLException("Couldn't update artist!");
+            }
+
+            // Get key(s)
+            ResultSet generatedKeys = insertIntoArtists.getGeneratedKeys();
+            // Only expect 1 key to be returned from this INSERT statement
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            } else {
+                // Throw exception that will be handled in the insertSong()
+                throw new SQLException("Couldn't get _id for artist");
+            }
+        }
+    }
+
+
+    // Insert Album by Name and artistID from insertArtist()
+    private int insertAlbum(String name, int artistID) throws SQLException {
+        queryAlbum.setString(1, name);
+        ResultSet results = queryAlbum.executeQuery();
+        if (results.next()) {
+            // If we get a number back from query, album already exists. Return album ID
+            return results.getInt(1);
+        } else {
+            // Insert the album
+            insertIntoAlbums.setString(1, name);
+            insertIntoAlbums.setInt(2, artistID);
+            // executeUpdate() returns the number of rows affected by the INSERT
+            int affectedRows = insertIntoAlbums.executeUpdate();
+
+            // We only expect one row to be affected
+            if (affectedRows != 1) {
+                // Throw exception that will be handled in the insertSong()
+                throw new SQLException("Couldn't update album!");
+            }
+
+            // Get key(s)
+            ResultSet generatedKeys = insertIntoAlbums.getGeneratedKeys();
+            // Only expect 1 key to be returned from this INSERT statement
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            } else {
+                // Throw exception that will be handled in the insertSong()
+                throw new SQLException("Couldn't get _id for album");
+            }
+        }
+    }
+
+
+    // Insert Song by Title, Album, Track
+    public void insertSong(String title, String artist, String album, int track) {
+
+        try {
+            // Disable autocommit during transaction for ATOMICITY
+            // Turn off when running a sequence of SQL statements that should be executed together
+            conn.setAutoCommit(false);
+
+            // Insert artist given the artist's name
+            int artistID = insertArtist(artist);
+            // Insert album based on album's name and artist ID given from insertArtist()
+            int albumID = insertAlbum(album, artistID);
+            // Set the column entry at index 2 to be title of Song
+            insertIntoSongs.setString(2, title);
+            // Set the column entry at index 3 to be album id
+            insertIntoSongs.setInt(3, albumID);
+
+            // Check how many rows were affected. Only expect one to be affected
+            int affectedRows = insertIntoSongs.executeUpdate();
+
+            // We only expect one row to be affected
+            if (affectedRows == 1) {
+                // Commit the SQL statements
+                conn.commit();
+            } else {
+                throw new SQLException("The song insert failed");
+            }
+        } catch (SQLException e) {
+            System.out.println("Insert song exception: " + e.getMessage());
+            try {
+                System.out.println("Performing rollback");
+                conn.rollback();
+            } catch (SQLException e2) {
+                System.out.println("Oh boy! Things are really bad! " + e2.getMessage());
+            }
+        } finally {
+            try {
+                // Transaction ended, turn back on auto-commit
+                System.out.println("Setting default commit behavior.");
+                conn.setAutoCommit(true);
+            } catch (SQLException e3) {
+                System.out.println("Couldn't reset auto-commit! " + e3.getMessage());
+            }
+        }
+    }
 }
 
 
