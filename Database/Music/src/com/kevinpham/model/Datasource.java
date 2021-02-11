@@ -111,6 +111,7 @@ public class Datasource {
     public boolean open() {
         try {
             conn = DriverManager.getConnection(CONNECTION_STRING);
+            // Create PreparedStatement instance
             querySongInfoView = conn.prepareStatement(QUERY_VIEW_SONG_INFO_PREP);
             return true;
         } catch (SQLException e) {
@@ -305,8 +306,9 @@ public class Datasource {
     public List<SongArtist> querySongInfoView(String title) {
 
         try {
-            // Parameter '1' used to replace the 'first' occurrence of '?' in SQL query
+            // Parameter '1' used to replace the 'first' occurrence of '?' in SQL PreparedStatement Query
             querySongInfoView.setString(1, title);
+            // Run the PreparedStatement
             ResultSet results = querySongInfoView.executeQuery();
 
             List<SongArtist> songArtists = new ArrayList<>();
