@@ -105,10 +105,13 @@ public class Datasource {
 
     private Connection conn;
 
+    private PreparedStatement querySongInfoView;
+
     // Open a connection to our database
     public boolean open() {
         try {
             conn = DriverManager.getConnection(CONNECTION_STRING);
+            querySongInfoView = conn.prepareStatement(QUERY_VIEW_SONG_INFO_PREP);
             return true;
         } catch (SQLException e) {
             System.out.println("Couldn't connect to database " + e.getMessage());
@@ -117,9 +120,12 @@ public class Datasource {
     }
 
 
-    // Close the connection to our database
+    // Close our resources
     public void close() {
         try {
+            if(querySongInfoView != null) {
+                querySongInfoView.close();
+            }
             if (conn != null) {
                 conn.close();
             }
@@ -298,15 +304,11 @@ public class Datasource {
     // Query the View
     public List<SongArtist> querySongInfoView(String title) {
 
-        StringBuilder sb = new StringBuilder(QUERY_VIEW_SONG_INFO);
-        sb.append(title);
-        sb.append("\"");
+        try {
+            // Parameter '1' used to replace the 'first' occurrence of '?' in SQL query
+            querySongInfoView.setString(1, title);
+            ResultSet results = querySongInfoView.executeQuery();
 
-        System.out.println(sb.toString());
-
-        try (Statement statement = conn.createStatement();
-             ResultSet results = statement.executeQuery(sb.toString())
-        ) {
             List<SongArtist> songArtists = new ArrayList<>();
             while (results.next()) {
                 SongArtist songArtist = new SongArtist();
@@ -323,7 +325,8 @@ public class Datasource {
         }
     }
 
-
 }
+
+
 
 
