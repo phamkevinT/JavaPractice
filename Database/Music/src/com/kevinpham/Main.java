@@ -4,6 +4,7 @@ import com.kevinpham.model.Artist;
 import com.kevinpham.model.Datasource;
 import com.kevinpham.model.SongArtist;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 
 public class Main {
@@ -71,6 +72,24 @@ public class Main {
 
         // Get the Song Table meta data
         datasource.querySongsMetadata();
+
+
+        // Spacer
+        System.out.println("");
+        System.out.println("");
+
+
+        int count = datasource.getCount(Datasource.TABLE_SONGS);
+        System.out.println("Number of songs is: " + count);
+
+
+        // Spacer
+        System.out.println("");
+        System.out.println("");
+
+
+        datasource.createViewForSongArtist();
+
 
         datasource.close();
     }
