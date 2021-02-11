@@ -464,7 +464,9 @@ public class Datasource {
             } else {
                 throw new SQLException("The song insert failed");
             }
-        } catch (SQLException e) {
+        }
+        // Catch all exceptions here b/c rollback needed on any exceptions caught
+        catch (Exception e) {
             System.out.println("Insert song exception: " + e.getMessage());
             try {
                 System.out.println("Performing rollback");
