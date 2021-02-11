@@ -1,10 +1,12 @@
 package com.kevinpham;
 
+
 import com.kevinpham.model.Artist;
 import com.kevinpham.model.Datasource;
 import com.kevinpham.model.SongArtist;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
@@ -71,6 +73,40 @@ public class Main {
 
         // Get the Song Table meta data
         datasource.querySongsMetadata();
+
+
+        // Spacer
+        System.out.println("");
+        System.out.println("");
+
+
+        int count = datasource.getCount(Datasource.TABLE_SONGS);
+        System.out.println("Number of songs is: " + count);
+
+
+        // Spacer
+        System.out.println("");
+        System.out.println("");
+
+
+        datasource.createViewForSongArtist();
+
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter a song title: ");
+        String title = scanner.nextLine();
+
+
+        songArtists = datasource.querySongInfoView(title);
+        if (songArtists.isEmpty()) {
+            System.out.println("Couldn't find the artist for the song.");
+            return;
+        }
+        for (SongArtist artist : songArtists) {
+            System.out.println("FROM VIEW - Artist Name = " + artist.getArtistName() +
+                    " Album Name = " + artist.getAlbumName() +
+                    " Track Number = " + artist.getTrack());
+        }
 
         datasource.close();
     }

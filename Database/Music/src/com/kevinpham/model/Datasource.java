@@ -75,12 +75,43 @@ public class Datasource {
             " ORDER BY " + TABLE_ARTISTS + "." + COLUMN_ARTIST_NAME + ", " + TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME + " COLLATE NOCASE ";
 
 
+    // Creating View
+    public static final String TABLE_ARTIST_SONG_VIEW = "artist_list";
+    public static final String CREATE_ARTIST_FOR_SONG_VIEW = "CREATE VIEW IF NOT EXISTS " +
+            TABLE_ARTIST_SONG_VIEW + " AS SELECT " + TABLE_ARTISTS + "." + COLUMN_ARTIST_NAME + ", " +
+            TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME + " AS " + COLUMN_SONG_ALBUM + ", " +
+            TABLE_SONGS + "." + COLUMN_SONG_TRACK + ", " + TABLE_SONGS + "." + COLUMN_SONG_TITLE +
+            " FROM " + TABLE_SONGS +
+            " INNER JOIN " + TABLE_ALBUMS + " ON " + TABLE_SONGS +
+            "." + COLUMN_SONG_ALBUM + " = " + TABLE_ALBUMS + "." + COLUMN_ALBUMS_ID +
+            " INNER JOIN " + TABLE_ARTISTS + " ON " + TABLE_ALBUMS + "." + COLUMN_ALBUM_ARTIST +
+            " = " + TABLE_ARTISTS + "." + COLUMN_ARTIST_ID +
+            " ORDER BY " +
+            TABLE_ARTISTS + "." + COLUMN_ARTIST_NAME + ", " +
+            TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME + ", " +
+            TABLE_SONGS + "." + COLUMN_SONG_TRACK;
+
+
+    // Query View (Subject to SQL Injection)
+    public static final String QUERY_VIEW_SONG_INFO = "SELECT " + COLUMN_ARTIST_NAME + ", " +
+            COLUMN_SONG_ALBUM + ", " + COLUMN_SONG_TRACK + " FROM " + TABLE_ARTIST_SONG_VIEW +
+            " WHERE " + COLUMN_SONG_TITLE + " = \"";
+
+
+    // Prepared Query (Prevent SQL Injection)
+    public static final String QUERY_VIEW_SONG_INFO_PREP = "SELECT " + COLUMN_ARTIST_NAME + ", " +
+            COLUMN_SONG_ALBUM + ", " + COLUMN_SONG_TRACK + " FROM " + TABLE_ARTIST_SONG_VIEW +
+            " WHERE " + COLUMN_SONG_TITLE + " = ?";
+
     private Connection conn;
+
+    private PreparedStatement querySongInfoView;
 
     // Open a connection to our database
     public boolean open() {
         try {
             conn = DriverManager.getConnection(CONNECTION_STRING);
+            querySongInfoView = conn.prepareStatement(QUERY_VIEW_SONG_INFO_PREP);
             return true;
         } catch (SQLException e) {
             System.out.println("Couldn't connect to database " + e.getMessage());
@@ -89,9 +120,12 @@ public class Datasource {
     }
 
 
-    // Close the connection to our database
+    // Close our resources
     public void close() {
         try {
+            if(querySongInfoView != null) {
+                querySongInfoView.close();
+            }
             if (conn != null) {
                 conn.close();
             }
@@ -238,6 +272,61 @@ public class Datasource {
         }
     }
 
+    // Functions
+    public int getCount(String table) {
+        String sql = "SELECT COUNT(*) AS count FROM " + table;
+        try (Statement statement = conn.createStatement();
+             ResultSet results = statement.executeQuery(sql)
+        ) {
+            int count = results.getInt("count");
+
+            System.out.format("Count = %d\n", count);
+            return count;
+        } catch (SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
+            return -1;
+        }
+    }
+
+
+    // Create View for song artist
+    public boolean createViewForSongArtist() {
+        try (Statement statement = conn.createStatement()) {
+            statement.execute(CREATE_ARTIST_FOR_SONG_VIEW);
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
+            return false;
+        }
+    }
+
+
+    // Query the View
+    public List<SongArtist> querySongInfoView(String title) {
+
+        try {
+            // Parameter '1' used to replace the 'first' occurrence of '?' in SQL query
+            querySongInfoView.setString(1, title);
+            ResultSet results = querySongInfoView.executeQuery();
+
+            List<SongArtist> songArtists = new ArrayList<>();
+            while (results.next()) {
+                SongArtist songArtist = new SongArtist();
+                songArtist.setArtistName(results.getString(1));
+                songArtist.setAlbumName(results.getString(2));
+                songArtist.setTrack(results.getInt(3));
+                songArtists.add(songArtist);
+            }
+            return songArtists;
+
+        } catch (SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
+            return null;
+        }
+    }
+
 }
+
+
 
 
