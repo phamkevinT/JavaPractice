@@ -1,5 +1,8 @@
 package com.kevinpham.model;
 
+/**
+ * Artist Class that contains an ID and a NAME
+ */
 public class Artist {
 
     private int id;
