@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.Scanner;
 
 public class Main {
@@ -13,6 +14,9 @@ public class Main {
 
         // Create a Socket
         try (Socket socket = new Socket("localhost", 5000)) {
+
+            // Set a timeout
+            socket.setSoTimeout(5000);
             BufferedReader echoes = new BufferedReader(
                     new InputStreamReader(socket.getInputStream()));
             PrintWriter stringToEcho = new PrintWriter(socket.getOutputStream(), true);
@@ -35,7 +39,8 @@ public class Main {
                     System.out.println(response);
                 }
             } while (!echoString.equals("exit"));
-
+        } catch (SocketTimeoutException e) {
+            System.out.println("The socket Timed out");
         } catch (IOException e) {
             System.out.println("Client Error: " + e.getMessage());
         }
