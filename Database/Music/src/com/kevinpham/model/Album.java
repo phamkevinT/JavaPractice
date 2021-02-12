@@ -1,5 +1,8 @@
 package com.kevinpham.model;
 
+/**
+ * Album Class that contains an ID, Album NAME, Album Artist's ID
+ */
 public class Album {
 
     private int id;

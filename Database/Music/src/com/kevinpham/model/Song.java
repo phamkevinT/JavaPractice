@@ -1,5 +1,8 @@
 package com.kevinpham.model;
 
+/**
+ * Song Class that contains an ID, TRACK number, Song NAME, Song Album's ID
+ */
 public class Song {
 
     private int id;

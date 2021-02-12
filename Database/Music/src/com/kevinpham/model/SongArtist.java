@@ -1,5 +1,9 @@
 package com.kevinpham.model;
 
+
+/**
+ * SongArtist Class that contains an Song Artist's Name, Song Album's Name, Song Track Number
+ */
 public class SongArtist {
 
     private String artistName;
