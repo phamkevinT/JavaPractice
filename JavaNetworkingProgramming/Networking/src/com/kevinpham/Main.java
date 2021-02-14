@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLConnection;
 
 public class Main {
 
@@ -14,8 +15,11 @@ public class Main {
         try {
             URL url = new URL("http://example.org");
 
+            URLConnection urlConnection = url.openConnection();
+            urlConnection.connect();
+
             BufferedReader inputStream = new BufferedReader(
-                    new InputStreamReader(url.openStream()));
+                    new InputStreamReader(urlConnection.getInputStream()));
 
             String line = "";
             while (line != null) {
@@ -25,6 +29,8 @@ public class Main {
             inputStream.close();
 
 
+        } catch (MalformedURLException e) {
+            System.out.println("MalformedURLException: " + e.getMessage());
         } catch (IOException e) {
             System.out.println("IO Exception: " + e.getMessage());
         }
